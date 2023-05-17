@@ -7,11 +7,18 @@ public class MonteCarloIntegration {
         double b = 1.0; // Права межа інтервалу
         double fmax = fMax(a, b);
         double S_par = fmax * b; // Площа прямокутника
+        int K = getPointsFallingUnderTheCurve(N, fmax); // кількості точок, що попаkb під криву
+        double S = S_par * K / N; // Обчислення площи під кривою
+        System.out.println("К-сть генеруємих точок : " + N);
+        System.out.println("Площа прямокутника: " + Math.round(S_par));
+        System.out.println("Результатом обчислення S: " + S);
+
+    }
+
+    public static int getPointsFallingUnderTheCurve(int N, double fmax) {
         int K = 0; // Початкове значення кількості точок, що попадуть під криву
-
-        Random random = new Random();
-
         for (int i = 0; i < N; i++) {
+            Random random = new Random();
             double x = random.nextDouble(); // Генерування випадкового значення x в діапазоні [0, 1]
             double y = random.nextDouble() * fmax; // Генерування випадкового значення y в діапазоні [0, f_max]
 
@@ -22,11 +29,7 @@ public class MonteCarloIntegration {
                 K++;
             }
         }
-
-        double S = S_par * K / N; // Обчислення площи під кривою
-
-        System.out.println("Результатом обчислення S: " + S);
-
+        return K;
     }
 
     public static double fMax(double a, double b) {
